@@ -7,21 +7,33 @@ public class PlayerController : MonoBehaviour
 {
     private const float ThreePiOverFour = Mathf.PI * 3 / 4;
     private const float PiOverFour = Mathf.PI / 4;
-    public float speed;
     public Animator animator;
     public Rigidbody2D rb2d;
 
     [Range(0.001f, 2.0f)]
-    public float TranslationIncrement = .035f;
+    public float TranslationIncrement = .07f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
+    {
+        movement();
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            attack();
+        }
+        if (Input.GetKeyUp(KeyCode.X))
+        {
+            animator.SetInteger("AttackState", 0);
+        }
+    } // End update()
+
+    void movement()
     {
         float vertical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");
@@ -31,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
         if (movement == Vector2.zero)
         {
-            if(animator.GetInteger("WalkState") == 1)
+            if (animator.GetInteger("WalkState") == 1)
             {
                 animator.SetInteger("WalkState", 5);
             }
@@ -47,11 +59,11 @@ public class PlayerController : MonoBehaviour
             {
                 animator.SetInteger("WalkState", 8);
             }
-        }
+        } // End if
         else
         {
             float angle = Mathf.Atan2(movement.y, movement.x);
-            if(angle < ThreePiOverFour && angle > PiOverFour )
+            if (angle < ThreePiOverFour && angle > PiOverFour)
             {
                 animator.SetInteger("WalkState", 1);
                 transform.root.position += Vector3.up * TranslationIncrement;
@@ -71,8 +83,30 @@ public class PlayerController : MonoBehaviour
                 animator.SetInteger("WalkState", 4);
                 transform.root.position += Vector3.left * TranslationIncrement;
             }
-        }
+        } // End else
+    } // End movement
 
-        rb2d.velocity = movement * speed * Time.deltaTime;
-    }
-}
+    void attack()
+    {
+        if (animator.GetInteger("WalkState") == 1 ||
+            animator.GetInteger("WalkState") == 5)
+        {
+            animator.SetInteger("AttackState", 1);
+        }
+        else if (animator.GetInteger("WalkState") == 2 ||
+            animator.GetInteger("WalkState") == 6)
+        {
+            animator.SetInteger("AttackState", 2);
+        }
+        else if (animator.GetInteger("WalkState") == 2 ||
+            animator.GetInteger("WalkState") == 7)
+        {
+            animator.SetInteger("AttackState", 3);
+        }
+        else if (animator.GetInteger("WalkState") == 4 ||
+            animator.GetInteger("WalkState") == 8)
+        {
+            animator.SetInteger("AttackState", 4);
+        }
+    } // End attack()
+} // End class
