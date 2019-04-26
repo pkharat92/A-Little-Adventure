@@ -28,10 +28,18 @@ public class TreasureChestController : MonoBehaviour
             // Unlock chest
             animator.enabled = true;
 
-            int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-            if (SceneManager.sceneCount > nextSceneIndex)
+            string currentScene;
+            currentScene = SceneManager.GetActiveScene().name;
+
+            switch (currentScene)
             {
-                SceneManager.LoadScene(nextSceneIndex);
+                case "Level 1":
+                    SceneManager.LoadScene("Level 2");
+                    break;
+
+                case "Level 2":
+                    SceneManager.LoadScene("credits");
+                    break;
             }
         } // End if
     }

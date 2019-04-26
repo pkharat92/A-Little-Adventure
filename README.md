@@ -23,6 +23,8 @@ Tiny Adventure Pack - https://opengameart.org/content/tiny-adventure-pack
 	-Includes sprites for characters, enemies, and objects, and sprite 
          sheets for animations
 
+Music - https://opengameart.org/content/woodland-fantasy
+
 Scripts, Prefabs, & Animations - I personally wrote all scripts, and used
                                  sprites and sprite sheets to create prefabs 
 				 and animation files
