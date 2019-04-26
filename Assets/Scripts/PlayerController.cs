@@ -13,11 +13,16 @@ public class PlayerController : MonoBehaviour
     [Range(0.001f, 2.0f)]
     public float TranslationIncrement = .07f;
 
+    public Transform playerPos;
+    public LayerMask whatIsEnemy;
+    public LayerMask whatIsChest;
+    public float playerRange;
+
     // Start is called before the first frame update
     void Start()
     {
 
-    }
+    } // End start()
 
     // Update is called once per frame
     void Update()
@@ -26,10 +31,23 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             attack();
+            Collider2D[] enemiesToAttack = Physics2D.OverlapCircleAll(playerPos.position, playerRange, whatIsEnemy);
+            for (int i = 0; i < enemiesToAttack.Length; i++)
+            {
+                enemiesToAttack[i].GetComponent<SkeletonController>().destroyEnemy();
+            }
         }
         if (Input.GetKeyUp(KeyCode.X))
         {
             animator.SetInteger("AttackState", 0);
+        }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Collider2D[] chestsToOpen = Physics2D.OverlapCircleAll(playerPos.position, playerRange, whatIsChest);
+            for (int i = 0; i < chestsToOpen.Length; i++)
+            {
+                chestsToOpen[i].GetComponent<TreasureChestController>().openChest();
+            }
         }
     } // End update()
 
@@ -109,4 +127,10 @@ public class PlayerController : MonoBehaviour
             animator.SetInteger("AttackState", 4);
         }
     } // End attack()
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(playerPos.position, playerRange);
+    }
 } // End class

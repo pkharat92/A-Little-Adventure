@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TreasureChestController : MonoBehaviour
+public class TreasureChestControllerLevel2 : MonoBehaviour
 {
     public Animator animator;
     private bool collided = false;
